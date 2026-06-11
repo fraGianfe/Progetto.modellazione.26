@@ -24,14 +24,14 @@ import javafx.scene.text.FontWeight;
 public class SchermoGioco extends BorderPane {
 
     /** Dimensione in pixel di ogni cella della mappa. */
-    private static final int DIM_CELLA = 46;
+    private static final int DIM_CELLA = 40;
     /** Dimensione (in px) di un singolo "pixel" dello sprite 8x8. */
     private static final int PIXEL_SPRITE = 5;
 
     private final GestorePartita gestorePartita;
 
     // Griglia: ogni StackPane contiene un Rectangle (sfondo) e opzionalmente il Canvas sprite
-    private final StackPane[][] celle = new StackPane[10][10];
+    private StackPane[][] celle;
 
     // Sprite del personaggio (Canvas pixel-art 40x40 px)
     private final Canvas spritePersonaggio;
@@ -119,8 +119,11 @@ public class SchermoGioco extends BorderPane {
 
     private void costruisciGriglia(GridPane griglia) {
         Mappa mappa = gestorePartita.getMappa();
-        for (int y = 0; y < 10; y++) {
-            for (int x = 0; x < 10; x++) {
+        int cols = mappa.getLarghezza();
+        int rows = mappa.getAltezza();
+        celle = new StackPane[rows][cols];
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
                 Cella cella = mappa.getCella(x, y).orElse(null);
                 if (cella == null) continue;
 
@@ -188,8 +191,10 @@ public class SchermoGioco extends BorderPane {
         spriteY = py;
 
         // --- Aggiorna colore/opacità di tutte le celle ---
-        for (int y = 0; y < 10; y++) {
-            for (int x = 0; x < 10; x++) {
+        int cols = mappa.getLarghezza();
+        int rows = mappa.getAltezza();
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
                 Cella cella = mappa.getCella(x, y).orElse(null);
                 if (cella == null) continue;
                 Rectangle sfondo = (Rectangle) celle[y][x].getChildren().get(0);
