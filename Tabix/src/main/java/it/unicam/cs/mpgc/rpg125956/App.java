@@ -31,4 +31,10 @@ public class App extends Application {
         Scene scena = new Scene(schermo, 960, 860);
         primaryStage.setScene(scena);
     }
+
+    public static void mostraSchermoScontro(GestorePartita gestorePartita, Cella cella) {
+        SchermoScontro schermo = new SchermoScontro(gestorePartita, cella);
+        Scene scena = new Scene(schermo, 560, 480);
+        primaryStage.setScene(scena);
+    }
 }

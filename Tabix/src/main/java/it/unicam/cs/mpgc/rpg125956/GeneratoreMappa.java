@@ -24,6 +24,7 @@ public class GeneratoreMappa {
             for (int x = 0; x < larghezza; x++)
                 griglia[y][x] = new Cella(x, y, scegliTipoAmbiente());
         popolaRisorse(griglia);
+        popolaNemici(griglia);
         return new Mappa(griglia, larghezza, altezza);
     }
 
@@ -50,5 +51,20 @@ public class GeneratoreMappa {
             case CAVERNA -> TipoRisorsa.MINERALI;
             case STANZA  -> TipoRisorsa.CIBO;
         };
+    }
+
+    private void popolaNemici(Cella[][] griglia) {
+        for (Cella[] riga : griglia)
+            for (Cella cella : riga) {
+                if (cella.getX() == 0 && cella.getY() == 0) continue; // cella di partenza libera
+                if (random.nextInt(100) < 15) {
+                    int n = random.nextInt(100);
+                    TipoNemico tipo;
+                    if (n < 55)      tipo = TipoNemico.GOBLIN;
+                    else if (n < 85) tipo = TipoNemico.SCHELETRO;
+                    else             tipo = TipoNemico.TROLL;
+                    cella.setNemico(new Nemico(tipo));
+                }
+            }
     }
 }
